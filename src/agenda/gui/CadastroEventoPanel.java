@@ -24,23 +24,19 @@ import javax.swing.JButton;
 public class CadastroEventoPanel extends JPanel {
 	private JTextField tfDescEvento;
 	private JTextField tfDtEvento;
-	private JTextField tfEncaminharEmail;
+	private JTextField tfEmailEvento;
 	private JCheckBox chckbxAlarme;
-	private JRadioButton rdbUmaVez;
+	private JRadioButton rdbtnUmaVez;
 	private JRadioButton rdbtnSemanal;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private Object listaEventos;
 
 
-	/**
-	 * Create the panel.
-	 * @param listaEventosPanel 
-	 */
 	public CadastroEventoPanel(ListaEventosPanel listaEventosPanel) {
 		this.listaEventos = listaEventos;
 		setLayout(null);
 		
-		JLabel lblDescEvento = new JLabel("Descri\u00E7\u00E3o do Evento");
+		JLabel lblDescEvento = new JLabel("Descrição do Evento");
 		lblDescEvento.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblDescEvento.setBounds(10, 15, 119, 14);
 		add(lblDescEvento);
@@ -50,10 +46,10 @@ public class CadastroEventoPanel extends JPanel {
 		add(tfDescEvento);
 		tfDescEvento.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Data do Evento");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_1.setBounds(10, 71, 98, 14);
-		add(lblNewLabel_1);
+		JLabel lblDtEvento = new JLabel("Data do Evento");
+		lblDtEvento.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblDtEvento.setBounds(10, 71, 98, 14);
+		add(lblDtEvento);
 		
 		tfDtEvento = new JTextField();
 		tfDtEvento.setBounds(140, 71, 108, 20);
@@ -65,10 +61,10 @@ public class CadastroEventoPanel extends JPanel {
 		lblEncaminharEmail.setBounds(10, 105, 108, 14);
 		add(lblEncaminharEmail);
 		
-		tfEncaminharEmail = new JTextField();
-		tfEncaminharEmail.setBounds(138, 102, 228, 20);
-		add(tfEncaminharEmail);
-		tfEncaminharEmail.setColumns(10);
+		tfEmailEvento = new JTextField();
+		tfEmailEvento.setBounds(138, 102, 228, 20);
+		add(tfEmailEvento);
+		tfEmailEvento.setColumns(10);
 		
 		JLabel lblPeriodicidadeEvento = new JLabel("Periodicidade do Evento");
 		lblPeriodicidadeEvento.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -115,7 +111,6 @@ public class CadastroEventoPanel extends JPanel {
 			  limparCampos();
 			 }
 		});
-
 			
 	}
 	
@@ -123,28 +118,28 @@ public class CadastroEventoPanel extends JPanel {
 		  tfDtEvento.setText("");
 		  tfDescEvento.setText("");
 		  chckbxAlarme.setSelected(false);
-		  tfEncaminharEmail.setText("");
-		  rdbUmaVez.setSelected(true);
-	}
+		  tfEmailEvento.setText("");
+		  rdbtnUmaVez.setSelected(true);
+		}
 	
 	private void chamaCadastroEvento(){
 		  AgendaIO io = new AgendaIO();
 		  Evento evento = new Evento();
+		  ListaEventosPanel listaEventos = new ListaEventosPanel();
 
 		  Object[] novaLinha = new Object[5];
 
 		  evento.setDataEvento(AgendaUtils.getDateFromString(tfDtEvento.getText()));
 		  evento.setDescEvento(tfDescEvento.getText());
 		  evento.setAlarme(chckbxAlarme.isSelected() ? 1 : 0);
-		  evento.setEmailEncaminhar(tfEncaminharEmail.getText());
+		  evento.setEmailEncaminhar(tfEmailEvento.getText());
 
 		  novaLinha[0] = tfDtEvento.getText();
 		  novaLinha[1] = tfDescEvento.getText();
 		  novaLinha[4] = chckbxAlarme.isSelected() ? "LIGADO" : "DESLIGADO";
-		  novaLinha[3] = tfEncaminharEmail.getText();
+		  novaLinha[3] = tfEmailEvento.getText();
 
-
-		if(rdbUmaVez.isSelected()){
+		  if(rdbtnUmaVez.isSelected()){
 		   evento.setPeriodicidade(PeriodicidadeEnum.UNICO);
 		   novaLinha[2] = PeriodicidadeEnum.UNICO;
 		  }
@@ -163,7 +158,7 @@ public class CadastroEventoPanel extends JPanel {
 		   JOptionPane.showMessageDialog(null, "ERRO", ex.getMessage(),
 		   JOptionPane.ERROR_MESSAGE);
 		  }
-		  ((ListaEventosPanel) listaEventos).addNewRow(novaLinha);
+		  listaEventos.addNewRow(novaLinha);
 		  limparCampos();
 		}
 }
